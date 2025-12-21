@@ -108,13 +108,13 @@ header button:hover {
     font-size: 16px;
     outline: none;
     background-color: #000;
-    color: white;
+    color: purple;
     text-align: center;
 }
 
 .search-bar::placeholder {
     color: white;
-    opacity: 0.7;
+    opacity: 0.50;
 }
 
 /* APP CARDS */
@@ -168,6 +168,12 @@ const popupMessages = [
     "Triple T x Da Kirk r34😳",
     "*Ohio impressed*",
     "R3bloxian and N were here...",
+    "Hooba Dooba...",
+    "Merry Christmas!",
+    "Coffee coffee eEffoc eeffoc",
+    "nerf Tripwire",
+    "Tails is so annoying getting the chaos emeralds in sonic 2",
+    "Simply havin, a wonderful Christmas Time!",
 ];
 
 // Array of random fonts
@@ -180,11 +186,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
     popup.textContent = randomMessage;
     popup.style.fontFamily = randomFont;
-    popup.style.opacity = 1;
+    popup.style.opacity = 0.50;
 
     setTimeout(() => {
-        popup.style.opacity = 0;
-    }, 3000); // disappear after 3 seconds
+        popup.style.opacity = 0.50;
+    }, 1000); // disappear after 1 second
 });
 
 /* ================= APP FUNCTIONS ================= */

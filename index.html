@@ -38,13 +38,34 @@
         background-color: #5a00e7;
     }
 
+    /* ================= SECTION ================= */
     .section {
         padding: 40px;
         text-align: center;
         background-color: #5a00e7;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* SEARCH BAR */
+    /* ================= PARTICLE BACKGROUND ================= */
+    .particle-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url("PLACE_GIF_URL_HERE");
+        background-repeat: repeat;
+        background-size: 300px 300px;
+        opacity: 0.5;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Keep content above particles */
+    .section > *:not(.particle-bg) {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ================= SEARCH BAR ================= */
     .search-bar {
         display: block;
         width: 600px;
@@ -64,7 +85,7 @@
         opacity: 0.7;
     }
 
-    /* NO RESULTS MESSAGE */
+    /* ================= NO RESULTS ================= */
     #no-results {
         display: none;
         margin: 15px 0 30px;
@@ -73,6 +94,7 @@
         opacity: 0.9;
     }
 
+    /* ================= GAME CARDS ================= */
     .game-card {
         display: inline-block;
         width: 200px;
@@ -104,8 +126,7 @@
 
     iframe.fullscreen {
         position: fixed;
-        top: 0;
-        left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
         border: none;
@@ -153,81 +174,5 @@
 </header>
 
 <div class="section">
-    <h2>Games</h2>
 
-    <input
-        type="text"
-        id="searchInput"
-        class="search-bar"
-        placeholder="Search games..."
-        onkeyup="filterGames()"
-    >
-
-    <div id="no-results">nothing found dude......</div>
-
-    <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
-        <img src="https://krunker-io.io/krunker-io-icon.jpg">
-        <h3>Krunker.io</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://agar.io/')">
-        <img src="https://paperiogame.io/data/image/game/agario.png">
-        <h3>Agar.io</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://slither.io/')">
-        <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg">
-        <h3>Slither.io</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://shellshock.io/')">
-        <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg">
-        <h3>Shell Shockers</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://diep.io/')">
-        <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA">
-        <h3>Diep.io</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://htmlxm.github.io/h3/tag/')">
-        <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
-        <h3>Tag</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-heroes.html')">
-        <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
-        <h3>Sonic 2 heroes</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-winter-adventures.html')">
-        <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
-        <h3>Sonic winter adventures</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://waves.lat/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/467-updatee.html')">
-        <img src="https://i.ytimg.com/vi/L5vrz-fq9D0/maxresdefault.jpg">
-        <h3>Baldi's basic's plus</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://space-waves.io/space-waves.embed')">
-        <img src="https://spacewavesgame.org/cache/data/image/game/space-waves-favicon-m208x208.png">
-        <h3>Space Waves</h3>
-    </div>
-
-    <div class="game-card" onclick="openFullscreen('https://azgames.io/game/escape-road/')">
-        <img src="https://traffic-rider.io/data/image/escaperoad.jpg">
-        <h3>Escape Road</h3>
-    </div>
-        <div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
-        <img src="https://play.frogiee.one/stuff/games/slope.jpg">
-        <h3>Slope</h3>
-    </div>
-</div>
-
-<footer>
-    <p>&copy; Aija Unblockedd S+</p>
-</footer>
-
-</body>
-</html>
+    <!-- PARTICLE BACKG

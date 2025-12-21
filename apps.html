@@ -186,10 +186,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
     popup.textContent = randomMessage;
     popup.style.fontFamily = randomFont;
-    popup.style.opacity = 0;
+    popup.style.opacity = 0.50;
 
     setTimeout(() => {
-        popup.style.opacity = 1;
+        popup.style.opacity = 0.50;
     }, 3000); // disappear after 3 seconds
 });
 

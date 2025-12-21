@@ -18,25 +18,25 @@ body {
 /* ================= FULLSCREEN POPUP MESSAGE ================= */
 #popup-message {
     position: fixed;
-    inset: 0; /* cover entire screen */
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000; /* black background */
-    font-size: 3em; /* large text */
+    background-color: #000;
+    font-size: 3em;
     font-weight: bold;
     text-align: center;
-    opacity: 0;
+    opacity: 0; /* start invisible, JS will set to 1 */
     pointer-events: none;
-    transition: opacity 1s ease; /* smooth fade */
+    transition: opacity 1s ease; /* fade out smoothly */
     z-index: 9999;
-    -webkit-text-stroke: 2px #8000ff; /* purple outline */
-    color: #000; /* inner part black */
+    -webkit-text-stroke: 2px #8000ff; 
+    color: #000;
     text-shadow:
         0 0 5px #8000ff,
         0 0 10px #8000ff,
         0 0 20px #8000ff,
-        0 0 40px #8000ff; /* purple glow */
+        0 0 40px #8000ff;
 }
 
 /* ================= HEADER ================= */
@@ -176,7 +176,6 @@ const popupMessages = [
     "Simply havin, a wonderful Christmas Time!",
 ];
 
-// Array of random fonts
 const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "Impact", "Tahoma"];
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -187,10 +186,10 @@ window.addEventListener("DOMContentLoaded", () => {
     popup.textContent = randomMessage;
     popup.style.fontFamily = randomFont;
 
-    // Make popup fully visible
+    // Make popup fully visible immediately
     popup.style.opacity = 1;
 
-    // After 3 seconds, fade out
+    // Fade out after 3 seconds
     setTimeout(() => {
         popup.style.opacity = 0;
     }, 3000);

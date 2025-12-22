@@ -15,7 +15,7 @@ body {
     color: white;
 }
 
-/* FULLSCREEN POPUP MESSAGE */
+/* ================= FULLSCREEN POPUP MESSAGE ================= */
 #popup-message {
     position: fixed;
     inset: 0;
@@ -26,16 +26,20 @@ body {
     font-size: 3em;
     font-weight: bold;
     text-align: center;
-    opacity: 0;
+    opacity: 0; /* start invisible, JS will set to 1 */
     pointer-events: none;
-    transition: opacity 1s ease;
+    transition: opacity 1s ease; /* fade out smoothly */
     z-index: 9999;
     -webkit-text-stroke: 2px #8000ff; 
     color: #000;
-    text-shadow: 0 0 5px #8000ff,0 0 10px #8000ff,0 0 20px #8000ff,0 0 40px #8000ff;
+    text-shadow:
+        0 0 5px #8000ff,
+        0 0 10px #8000ff,
+        0 0 20px #8000ff,
+        0 0 40px #8000ff;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 header {
     background-color: #000;
     padding: 20px 30px;
@@ -58,7 +62,7 @@ header button:hover {
     background-color: #000;
 }
 
-/* SECTION */
+/* ================= SECTION ================= */
 .section-wrapper {
     position: relative;
     overflow: hidden;
@@ -119,7 +123,7 @@ header button:hover {
     width: 200px;
     height: 250px;
     background-color: #000;
-    margin: 15px;
+    margin: 15px auto; /* center cards */
     border-radius: 10px;
     cursor: pointer;
     position: relative;
@@ -132,6 +136,13 @@ header button:hover {
     border-radius: 10px 10px 0 0;
 }
 
+/* FOOTER */
+footer {
+    background-color: #000;
+    text-align: center;
+    padding: 20px 0;
+}
+
 /* FULLSCREEN IFRAME */
 iframe.fullscreen {
     position: fixed;
@@ -142,37 +153,26 @@ iframe.fullscreen {
     z-index: 1000;
 }
 
-/* CLOSE BUTTON ABOVE EVERYTHING */
+/* CLOSE BUTTON */
 #close-btn {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #8000ff;
+    font-size: 24px;
     color: white;
+    background-color: purple;
     border: none;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
+    display: none; /* hidden by default */
     z-index: 1001; /* above iframe */
-    display: none; /* hidden until an app opens */
-    text-shadow: 0 0 5px white;
-}
-#close-btn:hover {
-    box-shadow: 0 0 15px #fff, 0 0 30px #8000ff;
-}
-
-/* FOOTER */
-footer {
-    background-color: #000;
-    text-align: center;
-    padding: 20px 0;
 }
 </style>
 
 <script>
+/* ================= RANDOM FULLSCREEN POPUP MESSAGE ================= */
 const popupMessages = [
     "HA,HA, ONE!",
     "Check out the apps below!",
@@ -181,7 +181,7 @@ const popupMessages = [
     "Ready or not, here i COME!",
     "You'll never be a GOD!",
     "Something's missing...",
-    "Im outta here...",
+    "Im outta here!",
     "Triple T x Da Kirk r34😳",
     "*Ohio impressed*",
     "R3bloxian and ALT were here...",
@@ -196,7 +196,7 @@ const popupMessages = [
     "please girl, you hold me now.....",
     "i need you, i LOVE you.....",
     "Neko ga Neko de,aruyoni...",
-    "2017x and Lord X are the best exes change my mind (hm:faker)"
+    "2017x and Lord X are the best exes change my mind (hm:faker)",
 ];
 
 const fonts = ["Arial", "Verdana", "Georgia", "Courier New", "Comic Sans MS", "Impact", "Tahoma"];
@@ -210,25 +210,26 @@ window.addEventListener("DOMContentLoaded", () => {
     popup.style.fontFamily = randomFont;
 
     popup.style.opacity = 1;
-    setTimeout(() => popup.style.opacity = 0, 3000);
+
+    setTimeout(() => {
+        popup.style.opacity = 0;
+    }, 3000);
 });
 
+/* ================= APP FUNCTIONS ================= */
 function openFullscreen(url) {
-    // Create iframe
     const iframe = document.createElement('iframe');
     iframe.src = url;
     iframe.className = 'fullscreen';
     iframe.allowFullscreen = true;
     document.body.appendChild(iframe);
 
-    // Show X button
-    const closeBtn = document.getElementById("close-btn");
-    closeBtn.style.display = "block";
+    const closeBtn = document.getElementById('close-btn');
+    closeBtn.style.display = 'block';
 
-    // Close iframe when X clicked
     closeBtn.onclick = () => {
         iframe.remove();
-        closeBtn.style.display = "none";
+        closeBtn.style.display = 'none';
     };
 }
 
@@ -246,12 +247,16 @@ function filterCards() {
 
 <body>
 
+<!-- POPUP MESSAGE -->
 <div id="popup-message"></div>
 
 <header>
     <button onclick="location.href='index.html'">Games</button>
     <button onclick="location.href='apps.html'">Apps</button>
 </header>
+
+<!-- CLOSE BUTTON FOR IFRAME -->
+<button id="close-btn">X</button>
 
 <div class="section-wrapper">
     <div class="section">
@@ -267,102 +272,122 @@ function filterCards() {
                 onkeyup="filterCards()"
             >
 
-            <!-- CLOSE BUTTON -->
-            <button id="close-btn">X</button>
-
-            <!-- ALL APP CARDS -->
+            <!-- STACKED APP CARDS -->
             <div class="app-card" onclick="openFullscreen('https://scramjet.mercurywork.shop/')">
                 <img src="https://scramjet.mercurywork.shop/favicon.webp">
                 <h3>Scramjet</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://edu-links12.vapor.my.cdn.cloudflare.net/')">
                 <img src="https://cdn.discordapp.com/icons/1339758993962307666/355f44f4d8c014283bbbc0a5ec475000.webp">
                 <h3>Prism</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://z.axsetubal.pt/')">
                 <img src="https://z.axsetubal.pt/logo.webp">
                 <h3>Z-kit</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://tennis.coaching2lead.com/')">
                 <img src="https://styles.redditmedia.com/t5_9vvnjt/styles/communityIcon_ypv1871zsvyb1.png">
                 <h3>Interstellar</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://glintapp.org/')">
                 <img src="https://glintapp.org/images/logo.png">
                 <h3>Glint</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://third-army.surge.sh/')">
                 <img src="https://third-army.surge.sh/icon.png">
                 <h3>HyperTabs</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://browser.rammerhead.org/')">
                 <img src="https://gitlab.com/uploads/-/system/project/avatar/45980936/images.png">
                 <h3>RammerHead</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://gointospace.app')">
                 <img src="https://gointospace.app/assets/favicon.ico">
                 <h3>NewSpace</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://waves.lat/')">
                 <img src="https://images.icon-icons.com/908/PNG/96/tsunami-huge-ocean-wave-in-a-rounded-square_icon-icons.com_70584.png">
                 <h3>Waves</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://play.frogiee.one/')">
                 <img src="https://play.frogiee.one/stuff/jolly.png">
                 <h3>Froggie's Arcade</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://idk.thepresenttraveller.com/')">
                 <img src="https://idk.thepresenttraveller.com/png/logo.png">
                 <h3>Truffled</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://course.music.sbindy.com/main.html')">
                 <img src="https://course.music.sbindy.com/favicon.ico">
                 <h3>Utopia</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://philosophy.k12biography.com/')">
                 <img src="https://trigonometry.scientificsense.org/shuttle.png">
                 <h3>Shuttle</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://sunsetnetwork.org/')">
                 <img src="https://sunsetnetwork.org/ghost.webp">
                 <h3>Ghost</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://sq2.hkieca.com/')">
                 <img src="https://sq2.hkieca.com/assets/imgs/logo.png">
                 <h3>DayDream X</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://prodigy-learning.v119.com/')">
                 <img src="https://prodigy-learning.v119.com/storage/images/christmas-logo-removebg-preview.png">
                 <h3>PeteZah</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://arnoldmiddleyk.totalcare.pk/onboarding')">
                 <img src="https://avatars.githubusercontent.com/u/193755495">
                 <h3>Bolt</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://edu.deparra.cl/')">
                 <img src="https://edu.deparra.cl/logo.svg">
                 <h3>DogeUb</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://flixer.sh')">
                 <img src="https://es.gridinsoft.com/img/scr/site/flixer-su.jpeg">
                 <h3>Flixer</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://thirtydollar.website/')">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrddS3kaFiDRe0jD6DhvFuuSRqruWIqzSe8w&s">
                 <h3>Thirty dollar</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://soundbuttonsworld.com/')">
                 <img src="https://play-lh.googleusercontent.com/H8M103xUfYigrhF8JWPE3YVeyripsEydkNFi3z7JpgxByj74kxnXaPI8DoYG5YTGhw">
                 <h3>Soundboard</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://www.worldguessr.com/')">
                 <img src="https://sm.ign.com/t/ign_de/photo/default/geoguessr-1729535819889_kgnb.600.jpg">
                 <h3>GeoGuesser</h3>
             </div>
+
             <div class="app-card" onclick="openFullscreen('https://3kh0s.github.io/apps/weavesilk/index.html')">
                 <img src="https://tse2.mm.bing.net/th/id/OIP.nVh5I7w7x1Sidj5oAx8UUgHaF6?rs=1&pid=ImgDetMain&o=7&rm=3">
                 <h3>WeaveSilk</h3>
             </div>
+
         </div>
     </div>
 </div>

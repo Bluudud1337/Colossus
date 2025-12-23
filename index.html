@@ -6,24 +6,23 @@
 <title>Khan Academy</title>
 <link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png">
 
+<!-- PARTICLE LIBRARY (EDIT URL IF YOU WANT) -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
 <style>
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
+    font-family: Arial, sans-serif;
     background: #000;
     color: white;
+    overflow-x: hidden;
 }
 
-/* PARTICLES */
-.particle-background {
+/* PARTICLE BACKGROUND */
+#particles-js {
     position: fixed;
     inset: 0;
-    background-image: url('INSERT_PARTICLE_URL_HERE');
-    background-size: cover;
-    background-repeat: repeat;
-    opacity: 0.3;
-    z-index: 0;
-    pointer-events: none;
+    z-index: -1;
 }
 
 /* POPUP */
@@ -33,15 +32,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background-color: #000;
     font-size: 3em;
     font-weight: bold;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 1s ease;
     z-index: 9999;
     -webkit-text-stroke: 2px #443dff;
     color: #000;
-    text-shadow: 0 0 5px #8000ff, 0 0 20px #8000ff;
+    text-shadow: 0 0 20px #8000ff;
 }
 
 /* HEADER */
@@ -49,49 +49,44 @@ header {
     padding: 20px 30px;
     display: flex;
     justify-content: flex-end;
-    position: relative;
-    z-index: 2;
+    gap: 20px;
 }
+
 header button {
-    background: #3d0078;
+    background-color: #3d0078;
     border: none;
     padding: 10px 20px;
     color: white;
     font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
-    margin-left: 20px;
 }
 
 /* SECTION */
 .section {
     padding: 40px;
     text-align: center;
-    background: #38008f;
-    position: relative;
-    z-index: 1;
 }
 
-/* COUNTER */
+/* GAME COUNTER */
 #game-counter {
     font-size: 48px;
     font-weight: bold;
     color: #1e90ff;
-    text-shadow: 0 0 8px white;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 /* SEARCH */
 .search-bar {
     width: 600px;
+    max-width: 90%;
     padding: 10px;
-    margin: 20px auto;
-    display: block;
     border-radius: 10px;
     border: 2px solid #8000ff;
     background: #000;
     color: white;
     text-align: center;
+    margin-bottom: 30px;
 }
 
 /* ICON */
@@ -100,35 +95,53 @@ header button {
     justify-content: center;
     margin-bottom: 30px;
 }
+
 .soft-icon {
     width: 64px;
     height: 64px;
-    border-radius: 14px;
     background: #000;
+    border-radius: 14px;
+    box-shadow: 0 0 20px #8000ff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(128,0,255,.8);
+    transition: .2s;
 }
-.soft-icon img { width: 70%; }
 
-/* GAME CARDS */
+.soft-icon:hover {
+    transform: scale(1.1);
+}
+
+/* STACKED GAME GRID */
+.games-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* GAME CARD */
 .game-card {
-    display: inline-block;
     width: 200px;
     height: 250px;
     background: #000;
-    margin: 15px;
     border-radius: 10px;
     cursor: pointer;
+    box-shadow: 0 0 10px #8000ff;
+    transition: transform .2s;
 }
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
 .game-card img {
     width: 100%;
     height: 160px;
     border-radius: 10px 10px 0 0;
 }
 
-/* FULLSCREEN */
+/* FULLSCREEN GAME */
 iframe.fullscreen {
     position: fixed;
     inset: 0;
@@ -138,86 +151,256 @@ iframe.fullscreen {
     z-index: 1000;
 }
 
-/* CLOSE */
+/* CLOSE BUTTON */
 #close-btn {
     position: fixed;
     top: 20px;
     right: 20px;
     background: #8000ff;
+    border: none;
     color: white;
-    border-radius: 50%;
+    font-size: 22px;
     width: 40px;
     height: 40px;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1001;
+    border-radius: 50%;
     display: none;
+    z-index: 1001;
+    cursor: pointer;
 }
 </style>
-
-<script>
-const popupMessages = [
-  "Welcome to Aija unblocked.",
-  "Loading...",
-  "thanks for playing on this site twin❤️‍🩹"
-];
-
-window.onload = () => {
-  const p = document.getElementById("popup-message");
-  p.textContent = popupMessages[Math.floor(Math.random()*popupMessages.length)];
-  p.style.opacity = 1;
-  setTimeout(()=>p.style.opacity=0,3000);
-  updateGameCount();
-};
-
-function openFullscreen(url){
-  const i=document.createElement("iframe");
-  i.src=url;
-  i.className="fullscreen";
-  document.body.appendChild(i);
-  const b=document.getElementById("close-btn");
-  b.style.display="block";
-  b.onclick=()=>{i.remove();b.style.display="none";}
-}
-
-function filterGames(){
-  const v=searchInput.value.toLowerCase();
-  document.querySelectorAll(".game-card").forEach(c=>{
-    c.style.display=c.innerText.toLowerCase().includes(v)?"inline-block":"none";
-  });
-}
-
-function updateGameCount(){
-  gameCounter.textContent=document.querySelectorAll(".game-card").length+" Games";
-}
-</script>
 </head>
 
 <body>
 
-<div class="particle-background"></div>
+<div id="particles-js"></div>
 <div id="popup-message"></div>
 
 <header>
-  <button onclick="location.href='apps.html'">Apps</button>
-  <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
+    <button onclick="location.href='apps.html'">Apps</button>
+    <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
 </header>
 
 <div class="section">
-<h2>Aija Unblockedd S+</h2>
-<h1>"this website is truly, where the Aija Unblocks. -67 chud"</h1>
+    <h2>Aija Unblockedd S+</h2>
+    <h3>"this website is truly, where the Aija Unblocks."</h3>
 
-<div id="game-counter">0 Games</div>
-<input id="searchInput" class="search-bar" placeholder="Search games.." onkeyup="filterGames()">
+    <div id="game-counter">0 Games</div>
 
-<div class="icon-wrapper">
-  <a href="https://discord.gg/9CucEhZfYj" target="_blank">
-    <div class="soft-icon">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
+    <input id="searchInput" class="search-bar" placeholder="Search games..." onkeyup="filterGames()">
+
+    <div class="icon-wrapper">
+        <a href="https://discord.gg/9CucEhZfYj" target="_blank">
+            <div class="soft-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="40">
+            </div>
+        </a>
     </div>
-  </a>
+
+    <button id="close-btn">X</button>
+
+    <!-- STACKED GAMES -->
+    <div class="games-container">
+
+        <!-- ALL YOUR GAMES (UNCHANGED) -->
+        <!-- I am showing a few; paste ALL remaining cards inside this container -->
+
+        <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
+            <img src="https://krunker-io.io/krunker-io-icon.jpg">
+            <h3>Krunker.io</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://agar.io/')">
+            <img src="https://paperiogame.io/data/image/game/agario.png">
+            <h3>Agar.io</h3>
+        </div>
+
+        <div class="game-card" onclick="openFullscreen('https://slither.io/')">
+            <img src="https://media.pocketgamer.com/artwork/na-kcwl/image_jpeg_820.jpg">
+            <h3>Slither.io</h3>
+        </div>
+        </div>
+  
+<div class="game-card" onclick="openFullscreen('https://shellshock.io/')">
+    <img src="https://slopegame.io/upload/imgs/shell-shockers-logo.jpg">
+    <h3>Shell Shockers</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://diep.io/')">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.SoA7WalxosSMghPoFU8xUQAAAA">
+    <h3>Diep.io</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://htmlxm.github.io/h3/tag/')">
+    <img src="https://cdn-1.webcatalog.io/catalog/poki-tag/poki-tag-icon-filled-256.png">
+    <h3>Tag</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-2-heroes.html')">
+    <img src="https://i.ytimg.com/vi/6l0yZTA_W84/maxresdefault.jpg">
+    <h3>Sonic 2 Heroes</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://playsonicgames.com/embed/sonic-winter-adventures.html')">
+    <img src="https://tse4.mm.bing.net/th/id/OIP.JD8ZvkHEC5ZCMSU_NpjQjAHaHa">
+    <h3>Sonic Winter Adventures</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://waves.lat/!!/https://cdn.jsdelivr.net/gh/gn-math/html@main/467-updatee.html')">
+    <img src="https://i.ytimg.com/vi/L5vrz-fq9D0/maxresdefault.jpg">
+    <h3>Baldi's Basics Plus</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://space-waves.io/space-waves.embed')">
+    <img src="https://spacewavesgame.org/cache/data/image/game/space-waves-favicon-m208x208.png">
+    <h3>Space Waves</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://azgames.io/game/escape-road/')">
+    <img src="https://traffic-rider.io/data/image/escaperoad.jpg">
+    <h3>Escape Road</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://sciencemathedu.github.io/slope/')">
+    <img src="https://play.frogiee.one/stuff/games/slope.jpg">
+    <h3>Slope</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://unblockedgamesfree.github.io/g-switch-3/')">
+    <img src="https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,g=0.5x0.5,f=auto/7f53593c-4090-4cc5-a934-6a5e599d8eaa.png">
+    <h3>G-Switch</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://thepercentcalculator.com/playgame/speedstars/')">
+    <img src="https://oss.speedstars.im/game-img/speed-stars-1.webp">
+    <h3>SpeedStars</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://1v1lol-unblocked-free.github.io/')">
+    <img src="https://1v1lolunblocked.org/files/images/1v1lol-350x350.jpg">
+    <h3>1v1.lol</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://gamea.azgame.io/hyper-tunnel/')">
+    <img src="https://ozgames.io/cache/data/image/game/Hyper-Tunnel-m160x96.JPG">
+    <h3>Hyper Tunnel</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/subwaysurfers/index.html')">
+    <img src="https://play-lh.googleusercontent.com/q3fXz4jcMPIjLh2bICiRFRHHZTL3iSrA6jqynI6JNcCGnN7uA7l1-QepJjd63bm3k0Y">
+    <h3>Subway Surfers</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/sonicthehedgehog3/index.html')">
+    <img src="https://cdn2.steamgriddb.com/file/sgdb-cdn/icon_thumb/9b38965364330406f2af50c5bac6b5cf.png">
+    <h3>Sonic 3</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://c930n.github.io/seraph/games/sonicrush/index.html')">
+    <img src="https://tse3.mm.bing.net/th/id/OIP.7bzWQQqYtOXGFyuxhFHgiwHaEK?rs=1&pid=ImgDetMain&o=7&rm=3">
+    <h3>Sonic Rush</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-maxidrive.bin')">
+    <img src="https://kbhgames.com/wp-content/uploads/2023/12/Sonic-Maxidrive.jpg">
+    <h3>Sonic Maxidrive</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-scorched-quest.gen')">
+    <img src="https://i.ytimg.com/vi/ah9gyZhkU_8/maxresdefault.jpg">
+    <h3>Sonic Scorched Quest</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=sonic-the-hackable2021.bin')">
+    <img src="https://www.y9freegames.com/wp-content/uploads/thumbs/custom/S/Sonic-the-Hackable.jpg">
+    <h3>Sonic The hackable</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://f.kbhgames.com/emujs/play.php?c=segaMD&f=Sonic%20The%20Hedgehog%202.gen')">
+    <img src="https://th.bing.com/th/id/R.7d0aa2470f4f090efd76d71f590b1f95?rik=zSXD2%2ffCn0Bzyg&pid=ImgRaw&r=0">
+    <h3>Sonic 2</h3>
+  </div>
+  
+<div class="game-card" onclick="openFullscreen('https://motox3munblocked.github.io/')">
+    <img src="https://rideable.org/wp-content/uploads/2023/11/moto-x3m-unblocked.jpg">
+    <h3>Moto 3xm</h3>
+</div>
+  
+<div class="game-card" onclick="openFullscreen('https://html5.gamedistribution.com/rvvASMiM/e6584e0a899c4bd185813623eb65d34e/index.html?gd_zone_config=eyJwYXJlbnRVUkwiOiJodHRwczovL3d3dy5zaWx2ZXJnYW1lcy5jb20vIiwicGFyZW50RG9tYWluIjoic2lsdmVyZ2FtZXMuY29tIiwidG9wRG9tYWluIjoic2lsdmVyZ2FtZXMuY29tIiwiaGFzSW1wcmVzc2lvbiI6dHJ1ZSwibG9hZGVyRW5hYmxlZCI6dHJ1ZSwiaG9zdCI6Imh0bWw1LmdhbWVkaXN0cmlidXRpb24uY29tIiwidmVyc2lvbiI6IjEuNS4xOCJ9?kiz10')">
+    <img src="https://tse2.mm.bing.net/th/id/OIP.tuoPaleCXC9EXVEGYLtfDgHaFj?rs=1&pid=ImgDetMain&o=7&rm=3">
+    <h3>Vector Rush</h3>
 </div>
 
-<button id="close-btn">X</button>
+<footer>
+<p>&copy; Aija Unblockedd S+</p>
+</footer>
 
-<!-- 🔥 ALL GAME CARDS BELOW (NONE REMOVED) -->
+</body>
+</html>
+        <!-- KEEP ADDING ALL YOUR GAME CARDS HERE -->
+    </div>
+</div>
+
+<footer style="text-align:center;padding:20px;">
+    &copy; Aija Unblockedd S+
+</footer>
+
+<script>
+/* POPUP */
+const popupMessages = [
+    "Welcome to Aija unblocked.",
+    "join our discord!",
+    "Loading..."
+];
+
+window.onload = () => {
+    const popup = document.getElementById("popup-message");
+    popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
+    popup.style.opacity = 1;
+    setTimeout(() => popup.style.opacity = 0, 3000);
+    updateGameCount();
+};
+
+/* FULLSCREEN */
+function openFullscreen(url) {
+    const iframe = document.createElement("iframe");
+    iframe.src = url;
+    iframe.className = "fullscreen";
+    document.body.appendChild(iframe);
+
+    const btn = document.getElementById("close-btn");
+    btn.style.display = "block";
+    btn.onclick = () => {
+        iframe.remove();
+        btn.style.display = "none";
+    };
+}
+
+/* SEARCH */
+function filterGames() {
+    const input = searchInput.value.toLowerCase();
+    document.querySelectorAll(".game-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input)
+            ? "block"
+            : "none";
+    });
+}
+
+/* COUNTER */
+function updateGameCount() {
+    document.getElementById("game-counter").textContent =
+        document.querySelectorAll(".game-card").length + " Games";
+}
+
+/* PARTICLES CONFIG */
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: "#8000ff" },
+        size: { value: 3 },
+        move: { speed: 1 }
+    }
+});
+</script>
+
+</body>
+</html>

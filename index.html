@@ -6,11 +6,16 @@
 <title>Khan Academy</title>
 <link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png">
 
-    
-<!-- PARTICLE LIBRARY -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 <style>
+/* ============ THEME VARIABLES ============ */
+:root {
+    --theme-main: #8000ff;
+    --theme-alt: #5a00e7;
+    --theme-glow: #8000ff;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -19,7 +24,7 @@ body {
     overflow-x: hidden;
 }
 
-/* PARTICLE BACKGROUND */
+/* PARTICLES */
 #particles-js {
     position: fixed;
     inset: 0;
@@ -33,16 +38,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000;
     font-size: 3em;
     font-weight: bold;
-    opacity: 1;
-    pointer-events: none;
-    transition: opacity 1s ease;
     z-index: 9999;
-    -webkit-text-stroke: 2px #443dff;
+    -webkit-text-stroke: 2px var(--theme-main);
     color: #000;
-    text-shadow: 0 0 20px #8000ff;
+    text-shadow: 0 0 20px var(--theme-glow);
+    background: #000;
+    transition: opacity 1s ease;
 }
 
 /* HEADER */
@@ -54,7 +57,7 @@ header {
 }
 
 header button {
-    background-color: #5a00e7;
+    background: var(--theme-alt);
     border: none;
     padding: 10px 20px;
     color: white;
@@ -63,18 +66,21 @@ header button {
     border-radius: 5px;
 }
 
+#themeBtn {
+    background: #555;
+}
+
 /* SECTION */
 .section {
     padding: 40px;
     text-align: center;
 }
 
-/* GAME COUNTER */
+/* COUNTER */
 #game-counter {
     font-size: 48px;
     font-weight: bold;
-    color: #5a00e7;
-    margin-bottom: 20px;
+    color: var(--theme-alt);
 }
 
 /* SEARCH */
@@ -83,7 +89,7 @@ header button {
     max-width: 90%;
     padding: 10px;
     border-radius: 10px;
-    border: 2px solid #8000ff;
+    border: 2px solid var(--theme-main);
     background: #000;
     color: white;
     text-align: center;
@@ -91,29 +97,17 @@ header button {
 }
 
 /* ICON */
-.icon-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
 .soft-icon {
     width: 64px;
     height: 64px;
-    background: #000;
     border-radius: 14px;
-    box-shadow: 0 0 20px #8000ff;
+    box-shadow: 0 0 20px var(--theme-glow);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: .2s;
 }
 
-.soft-icon:hover {
-    transform: scale(1.1);
-}
-
-/* GAME GRID */
+/* GRID */
 .games-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -121,17 +115,15 @@ header button {
     justify-items: center;
 }
 
-/* GAME CARD */
+/* CARD */
 .game-card {
-    width: 100%;
     max-width: 200px;
     height: 250px;
     background: #000;
     border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0 0 10px #8000ff;
-    transition: transform .2s;
-    text-align: center;
+    box-shadow: 0 0 10px var(--theme-glow);
+    transition: .2s;
 }
 
 .game-card:hover {
@@ -144,7 +136,7 @@ header button {
     border-radius: 10px 10px 0 0;
 }
 
-/* FULLSCREEN GAME */
+/* FULLSCREEN */
 iframe.fullscreen {
     position: fixed;
     inset: 0;
@@ -154,12 +146,12 @@ iframe.fullscreen {
     z-index: 1000;
 }
 
-/* CLOSE BUTTON */
+/* CLOSE */
 #close-btn {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #5a00e7;
+    background: var(--theme-alt);
     border: none;
     color: white;
     font-size: 22px;
@@ -168,7 +160,38 @@ iframe.fullscreen {
     border-radius: 50%;
     display: none;
     z-index: 1001;
+}
+
+/* THEME PANEL */
+#theme-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: #111;
+    border: 2px solid var(--theme-main);
+    padding: 15px;
+    border-radius: 10px;
+    display: none;
+    z-index: 2000;
+}
+
+.preset-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.preset-row button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
     cursor: pointer;
+}
+
+#colorPicker {
+    width: 100%;
+    height: 40px;
 }
 </style>
 </head>
@@ -180,30 +203,19 @@ iframe.fullscreen {
 <header>
     <button onclick="location.href='apps.html'">Apps</button>
     <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
-    <button onclick="location.href='proxy.html'">blank launcher</button>
+    <button onclick="location.href='proxy.html'">Blank Launcher</button>
+    <button id="themeBtn">Theme</button>
 </header>
 
 <div class="section">
-    <h2>Aija Unblocked</h2>
-    <h3>"welcome, to aija unblocked."</h3>
+<h2>Aija Unblocked</h2>
+<h3>"welcome, to aija unblocked."</h3>
 
-    <div id="game-counter">0 Games</div>
+<div id="game-counter"></div>
+<input id="searchInput" class="search-bar" placeholder="Search games..." onkeyup="filterGames()">
 
-    <input id="searchInput" class="search-bar" placeholder="Search games..." onkeyup="filterGames()">
-
-    <div class="icon-wrapper">
-        <a href="https://discord.gg/9CucEhZfYj" target="_blank">
-            <div class="soft-icon">
-                <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" width="40">
-            </div>
-        </a>
-    </div>
-
-    <button id="close-btn">X</button>
-
-    <!-- GAME GRID -->
-    <div class="games-container">
-        <!-- ALL YOUR GAME CARDS STACKED EXACTLY -->
+<div class="games-container">
+<!-- 🔥 ALL ORIGINAL GAMES (UNCHANGED) -->
         <div class="game-card" onclick="openFullscreen('https://krunker.io/')">
             <img src="https://krunker-io.io/krunker-io-icon.jpg">
             <h3>Krunker.io</h3>
@@ -391,39 +403,56 @@ iframe.fullscreen {
         <div class="game-card" onclick="openFullscreen('https://eaglercraftgame.github.io/go/minecraft-1.5.2/')">
             <img src="https://styles.redditmedia.com/t5_60aj9d/styles/communityIcon_serayq82g91a1.jpg?format=pjpg&s=3262e0b1499369a43c9123d5610d8fbfa462062c">
             <h3>EaglerCraft</h3>
-            
-        </div>
-    </div> <!-- END GAMES CONTAINER -->
+
+<!-- END -->
+</div>
 </div>
 
-<footer style="text-align:center;padding:20px;">
-    &copy; Aija Unblockedd S+
-</footer>
+<button id="close-btn">X</button>
+
+<!-- THEME PANEL -->
+<div id="theme-panel">
+    <div class="preset-row">
+        <button style="background:#8000ff" onclick="setTheme('#8000ff')"></button>
+        <button style="background:#ff0000" onclick="setTheme('#ff0000')"></button>
+        <button style="background:#00ffcc" onclick="setTheme('#00ffcc')"></button>
+        <button style="background:#00ff00" onclick="setTheme('#00ff00')"></button>
+        <button style="background:#ffaa00" onclick="setTheme('#ffaa00')"></button>
+    </div>
+    <input type="color" id="colorPicker">
+</div>
 
 <script>
-/* POPUP */
-const popupMessages = [
-    "Welcome to Aija unblocked.",
-    "join our discord!",
-    "Loading...",
-    "why is the sites code ALWAYS breaking??",
-    "Dev team NOWHERE to be seen...",
-    "Nerf TripWire dude please...",
-    "and i know that you know, that you know, that you mine..",
-    "SharkySab get a job..",
-    "Maxwell, youve been DEGLOVED.",
-    "Silver the fraudHog..",
-    "Github sites take like 5 years to update if you edited the code and commited changes..",
-    "AstraNova you actual bop bro",
-];
+/* THEME */
+const panel = document.getElementById("theme-panel");
+themeBtn.onclick = () =>
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
 
-window.onload = () => {
-    const popup = document.getElementById("popup-message");
-    popup.textContent = popupMessages[Math.floor(Math.random() * popupMessages.length)];
-    popup.style.opacity = 1;
-    setTimeout(() => popup.style.opacity = 0, 3000); // disappear after 3s
-    updateGameCount();
-};
+function setTheme(color) {
+    document.documentElement.style.setProperty("--theme-main", color);
+    document.documentElement.style.setProperty("--theme-alt", color);
+    document.documentElement.style.setProperty("--theme-glow", color);
+    localStorage.setItem("themeColor", color);
+    loadParticles(color);
+}
+
+colorPicker.oninput = e => setTheme(e.target.value);
+
+const saved = localStorage.getItem("themeColor");
+if (saved) setTheme(saved);
+
+/* PARTICLES */
+function loadParticles(color) {
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 80 },
+            color: { value: color },
+            size: { value: 4 },
+            move: { speed: 1 }
+        }
+    });
+}
+loadParticles(getComputedStyle(document.documentElement).getPropertyValue("--theme-main"));
 
 /* FULLSCREEN */
 function openFullscreen(url) {
@@ -431,40 +460,24 @@ function openFullscreen(url) {
     iframe.src = url;
     iframe.className = "fullscreen";
     document.body.appendChild(iframe);
-
-    const btn = document.getElementById("close-btn");
-    btn.style.display = "block";
-    btn.onclick = () => {
+    closeBtn.style.display = "block";
+    closeBtn.onclick = () => {
         iframe.remove();
-        btn.style.display = "none";
+        closeBtn.style.display = "none";
     };
 }
 
 /* SEARCH */
 function filterGames() {
     const input = searchInput.value.toLowerCase();
-    document.querySelectorAll(".game-card").forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(input)
-            ? "block"
-            : "none";
-    });
+    document.querySelectorAll(".game-card").forEach(card =>
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
+    );
 }
 
 /* COUNTER */
-function updateGameCount() {
-    document.getElementById("game-counter").textContent =
-        document.querySelectorAll(".game-card").length + " Games currently..";
-}
-
-/* PARTICLES CONFIG */
-particlesJS("particles-js", {
-    particles: {
-        number: { value: 80 },
-        color: { value: "#8000ff" },
-        size: { value: 4 },
-        move: { speed: 1 }
-    }
-});
+document.getElementById("game-counter").textContent =
+    document.querySelectorAll(".game-card").length + " Games currently..";
 </script>
 
 </body>

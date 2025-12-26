@@ -1,29 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Home</title>
-  <link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png">
+<meta charset="UTF-8">
+<title>Khan Academy</title>
+<link rel="icon" href="https://img.icons8.com/color/452/khan-academy.png">
+
+<style>
+:root {
+  --accent: #8000ff;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: white;
+  text-align: center;
+}
+
+/* HEADER */
+header {
+  padding: 20px 30px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+header button {
+  background: var(--accent);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+/* MAIN */
+.container {
+  margin-top: 80px;
+}
+
+h1 {
+  font-size: 48px;
+  text-shadow: 0 0 20px var(--accent);
+}
+
+.subtitle {
+  max-width: 800px;
+  margin: 20px auto 40px;
+  opacity: 0.85;
+}
+
+/* INPUT */
+#url {
+  width: 420px;
+  max-width: 90%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--accent);
+  background: #000;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 0 15px var(--accent);
+}
+
+/* GO BUTTON */
+#goBtn {
+  margin-top: 25px;
+  background: linear-gradient(135deg, #3a0066, var(--accent));
+  border: none;
+  padding: 14px 40px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--accent);
+  transition: transform .2s, box-shadow .2s;
+}
+
+#goBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px var(--accent);
+}
+</style>
 </head>
 
-<body style="background:#000;color:white;text-align:center;font-family:Arial">
+<body>
 
 <header>
   <button onclick="location.href='apps.html'">Apps</button>
   <button onclick="location.href='ProxyLinks.html'">Proxy Links</button>
-  <button onclick="location.href='index.html'">games</button>
+  <button onclick="location.href='index.html'">Games</button>
 </header>
 
-<h1>blank launcher</h1>
+<div class="container">
+  <h1>Blank Launcher</h1>
 
-<input id="url" placeholder="https://example.com" style="width:300px">
-<br><br>
+  <p class="subtitle">
+    Opens sites inside an <b>about:blank</b> tab.  
+    Only works for sites that allow embedding.
+  </p>
 
-<button onclick="openSite()">Go</button>
-
-<h2>
-  this doesnt open all sites btw, only sites that can be embedded.
-  if the site isnt embeddable, it will fail.
-</h2>
+  <input id="url" placeholder="https://example.com">
+  <br>
+  <button id="goBtn" onclick="openSite()">Launch</button>
+</div>
 
 <script>
 function openSite() {
@@ -34,15 +123,9 @@ function openSite() {
     url = "https://" + url;
   }
 
-  // Step 1: Open new blank tab
   const tab = window.open("", "_blank");
   if (!tab) return;
 
-  // Step 2: Navigate it to about:blank
-  tab.document.write("");
-  tab.document.close();
-
-  // Step 3: Inject iframe
   tab.document.open();
   tab.document.write(`
     <!DOCTYPE html>
